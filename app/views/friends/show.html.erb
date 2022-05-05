@@ -1,0 +1,12 @@
+<div class="card mb-3 mt-3">
+  <div class="card-header fs-3 fw-bold">
+    <%= @friend.first_name %> <%= @friend.last_name %>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><strong>Email:</strong> <%= @friend.email %></li>
+    <li class="list-group-item"><strong>Phone:</strong> <%= @friend.phone %></li>
+  </ul>
+</div>
+
+<%= link_to 'Edit', edit_friend_path(@friend), class: 'btn btn-outline-success' %> 
+<%= link_to 'Back', friends_path, class: 'btn btn-warning' %>
