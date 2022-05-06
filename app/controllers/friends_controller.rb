@@ -1,10 +1,24 @@
 class FriendsController < ApplicationController
   before_action :set_friend, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :is_correct_user_login, only: %i[edit update destroy]
 
   # GET /friends or /friends.json
   def index
-    @friends = Friend.all
+    if user_signed_in?
+      @friends = if params[:term]
+        query_params = params[:term].strip
+        current_user.friends
+          .where('first_name LIKE ? OR last_name LIKE ? OR phone LIKE ? OR email LIKE ? OR first_name || " " || last_name LIKE ?', 
+              ["%#{query_params}%"], 
+              ["%#{query_params}%"], 
+              ["%#{query_params}%"], 
+              ["%#{query_params}%"],
+              ["%#{query_params}%"])
+      else
+        @friends = current_user.friends
+      end
+    end
   end
 
   # GET /friends/1 or /friends/1.json
@@ -13,7 +27,7 @@ class FriendsController < ApplicationController
 
   # GET /friends/new
   def new
-    @friend = Friend.new
+    @friend = current_user.friends.build
   end
 
   # GET /friends/1/edit
@@ -22,7 +36,7 @@ class FriendsController < ApplicationController
 
   # POST /friends or /friends.json
   def create
-    @friend = Friend.new(friend_params)
+    @friend = current_user.friends.build(friend_params)
 
     respond_to do |format|
       if @friend.save
@@ -57,6 +71,12 @@ class FriendsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  protected
+    def is_correct_user_login
+      @friend = current_user.friends.find_by(id: params[:id])
+      redirect_to friends_path, notice: "You don't have authozize!" if @friend.nil?
+    end
 
   private
     # Use callbacks to share common setup or constraints between actions.

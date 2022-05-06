@@ -17,11 +17,11 @@
                 <li class="nav-item">
                     <%= link_to 'About Us', home_about_path, class: 'nav-link' %>
                 </li>
-                <li class="nav-item">
-                    <%= link_to 'Friends', friends_path, class: 'nav-link' %>
-                </li>
 
                 <% if user_signed_in? %>
+                    <li class="nav-item">
+                        <%= link_to 'Friends', friends_path, class: 'nav-link' %>
+                    </li>
                     <li class="nav-item">
                         <%= link_to 'Add Friend', new_friend_path, class: 'nav-link' %>
                     </li>
@@ -41,17 +41,12 @@
                 <% end %>
 
             </ul>
-            <form class="d-flex">
-                <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                />
-                <button class="btn btn-outline-success" type="submit">
-                    Search
-                </button>
-            </form>
+            <% if user_signed_in? && (request.path == root_path || request.path == friends_path)  %>
+                <%= form_tag(friends_path, method: :get, class: 'd-flex') do %>
+                    <%= text_field_tag :term, params[:term], class: "form-control me-2", placeholder: "Search"%>
+                    <%= submit_tag 'Search', class: 'btn btn-outline-success' %>
+                <% end %>
+            <% end %>
         </div>
     </div>
 </nav>
