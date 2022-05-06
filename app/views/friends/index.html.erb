@@ -17,7 +17,7 @@
     <% @friends.each do |friend| %>
       <tr>
         <td><%= friend.id %></td>
-        <td><%= link_to friend.first_name + ' ' + friend.last_name, friend, class: 'text-decoration-none text-success' %></td>
+        <td><%= link_to friend.full_name, friend, class: 'text-decoration-none text-success' %></td>
         <td><%= friend.email %></td>
         <td><%= friend.phone %></td>
         <td><%= friend.user_id %></td>

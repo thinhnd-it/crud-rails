@@ -7,4 +7,17 @@ class Friend < ApplicationRecord
     validates :first_name, presence: true
     validates :last_name, presence: true
     validates :phone, presence: true
+
+    scope :searching, ->(params) { 
+        where('first_name LIKE ? OR last_name LIKE ? OR phone LIKE ? OR email LIKE ? OR first_name || " " || last_name LIKE ?', 
+            ["%#{params}%"], 
+            ["%#{params}%"], 
+            ["%#{params}%"], 
+            ["%#{params}%"],
+            ["%#{params}%"]) 
+    }
+
+    def full_name
+        return self.first_name + ' ' + self.last_name
+    end
 end

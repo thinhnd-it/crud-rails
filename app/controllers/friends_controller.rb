@@ -8,13 +8,7 @@ class FriendsController < ApplicationController
     if user_signed_in?
       @friends = if params[:term]
         query_params = params[:term].strip
-        current_user.friends
-          .where('first_name LIKE ? OR last_name LIKE ? OR phone LIKE ? OR email LIKE ? OR first_name || " " || last_name LIKE ?', 
-              ["%#{query_params}%"], 
-              ["%#{query_params}%"], 
-              ["%#{query_params}%"], 
-              ["%#{query_params}%"],
-              ["%#{query_params}%"])
+        current_user.friends.searching(query_params)
       else
         @friends = current_user.friends
       end
