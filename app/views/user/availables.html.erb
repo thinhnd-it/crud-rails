@@ -1,0 +1,39 @@
+<% if user_signed_in? %>
+<h1>Available List</h1>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead class="table-dark text-light">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @users.each do |user| %>
+        <tr>
+            <% if !current_user.is_show?(user) and user != current_user %>
+                <td><%= user.id %></td>
+                <td>
+                    <%= link_to user.name, user, class: 'text-decoration-none text-success' %>
+                </td>
+                <td><%= user.email %></td>
+                <td><%= user.phone %></td>
+                <td>
+                    <%= link_to 'Add Friend', 
+                        add_friend_path(user.id), 
+                        class: 'btn btn-success d-block mx-auto',
+                        method: :post 
+                    %>
+                </td>
+            <% end %>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<br />
+<% end %>

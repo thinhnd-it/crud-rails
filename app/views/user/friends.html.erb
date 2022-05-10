@@ -1,0 +1,37 @@
+<% if user_signed_in? %>
+<h1>Friend List</h1>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead class="table-dark text-light">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @users.each do |user| %>
+        <tr>
+            <td><%= user.id %></td>
+            <td>
+                <%= link_to user.name, user, class: 'text-decoration-none text-success' %>
+            </td>
+            <td><%= user.email %></td>
+            <td><%= user.phone %></td>
+            <td>
+                <%= link_to 'Un Friend', 
+                    friendship_path(user.id), 
+                    class: 'btn btn-outline-danger d-block mx-auto', 
+                    method: :delete, 
+                    data: { confirm: 'Are you sure?' } %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<br />
+<% end %>
