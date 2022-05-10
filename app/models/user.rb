@@ -56,7 +56,7 @@ class User < ApplicationRecord
 
   def accept_friend(id)
     another_user = User.find(id)
-    friendships.update(friend: another_user, status: ACCEPTED)
-    another_user.friendships.update(friend: self, status: ACCEPTED)
+    friendships.where(friend_id: id).update(status: ACCEPTED)
+    another_user.friendships.where(friend_id: self.id).update(status: ACCEPTED)
   end
 end
