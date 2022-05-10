@@ -1,0 +1,38 @@
+<% if user_signed_in? %>
+<h1>User List</h1>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead class="table-dark text-light">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @users.each do |user| %>
+        <tr>
+            <td><%= user.id %></td>
+            <td>
+                user.name
+            </td>
+            <td><%= user.email %></td>
+            <td><%= user.phone %></td>
+            <td>
+                <%= link_to 'Destroy', user, class: 'btn btn-outline-danger
+                d-block mx-auto', method: :delete, data: { confirm: 'Are you
+                sure?' } %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<br />
+<% else %>
+<h1>Welcome to Friends App</h1>
+<p>This is the app that you can to manage your friend list</p>
+<% end %>
