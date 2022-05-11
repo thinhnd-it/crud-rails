@@ -28,8 +28,9 @@
                     <li class="nav-item">
                         <%= link_to 'Requestings', requestings_path, class: 'nav-link' %>
                     </li>
-                    <li class="nav-item">
-                        <%= link_to 'Be Requesteds', be_requesteds_path, class: 'nav-link' %>
+                    <li class="nav-item position-relative">
+                        <%= link_to(raw("Be Requesteds "), be_requesteds_path, class: 'nav-link') %>  
+                        <span id='badge' class='position-absolute top-0 end-0 badge rounded-pill bg-danger'><%=session[:count_requested]%></span> 
                     </li>
                     <li class="nav-item">
                         <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'nav-link' %>

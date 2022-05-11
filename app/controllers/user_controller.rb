@@ -6,6 +6,7 @@ class UserController < ApplicationController
     end
 
     def friends
+        session[:count_requested] = current_user.be_requesteds.size
         @users = current_user.friends
     end
 
@@ -23,11 +24,13 @@ class UserController < ApplicationController
 
     def add_friend
         current_user.add_friend(params[:id])
+        ActionCable.server.broadcast("notifications:#{params[:id]}", { count: User.find(params[:id]).be_requesteds.size})
         redirect_to requestings_path
     end
 
     def accept_friend
         current_user.accept_friend(params[:id])
+        ActionCable.server.broadcast("notifications:#{params[:id]}", { count: User.find(params[:id]).be_requesteds.size})
         redirect_to friends_path
     end
 end

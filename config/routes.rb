@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
+
+  mount ActionCable.server => '/cable'
+
   patch "/friends/:id", to: 'user#accept_friend', as: 'accept_friend'
   post "/friends/:id", to: 'user#add_friend', as: 'add_friend'
   get 'be-requesteds', to: 'user#be_requesteds', as: 'be_requesteds'
+  get 'be-requesteds-1', to: 'user#be_requesteds_1', as: 'be_requesteds_1'
   get 'requestings', to: 'user#requestings', as: 'requestings'
   get 'availables', to: 'user#availables', as: 'availables'
   delete "/be-requesteds/:id", to: 'friendship#un_accept', as: 'un_accept'

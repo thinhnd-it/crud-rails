@@ -8,6 +8,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable
 
+  has_many :notifications, as: :recipient
+
   has_many :friendships, dependent: :destroy
   has_many :friends, -> { where(friendships: {status: 'accepted'})}, through: :friendships
 
@@ -42,6 +44,10 @@ class User < ApplicationRecord
     another_user = User.find(id)
     self.be_requesteds.delete(another_user)
     another_user.requestings.delete(self)
+  end
+
+  def unacceptAll
+    FriendShip.where('user_id = ? OR friend_id = ? AND status != ?', current_user.id, current_user.id, 'accepted').delete_all
   end
 
   def is_show?(another_user)
